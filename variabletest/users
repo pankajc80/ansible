@@ -1,0 +1,11 @@
+---
+- name: Create users on the servers
+  hosts: all
+  vars:
+    user: infra
+  tasks:
+    - name: Add user {{ user }} 
+      user:
+        name: {{ user }}
+        state: present
+        groups: wheel
