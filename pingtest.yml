@@ -8,4 +8,5 @@
     
     - name: Display result
       debug:
+        msg: "Check for pong"
         var: result
