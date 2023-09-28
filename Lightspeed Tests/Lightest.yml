@@ -1,0 +1,23 @@
+---
+- name: Lightspeed demo
+  hosts: all
+  become: true
+  tasks:
+    - name: create a new user
+      ansible.builtin.user:
+        name: light
+        shell: /bin/bash
+        createhome: true
+        state: present
+
+    - name: check redhat version
+      ansible.builtin.shell: cat /etc/redhat-release
+      register: redhat_version
+
+    - name: Add proxy in /etc/profile
+      ansible.builtin.lineinfile:
+        path: /etc/profile
+        regexp: ^.*http.*=.*/etc/httpd/conf/httpd.conf
+        line: "{{ _line_ }}"
+        backup: true
+        state: present
