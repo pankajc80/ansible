@@ -9,3 +9,6 @@
         name: {{ user }}
         state: present
         groups: wheel
+
+    - name: create a file in home directory
+    
