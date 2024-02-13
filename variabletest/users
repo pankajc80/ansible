@@ -9,3 +9,9 @@
         name: {{ user }}
         state: present
         groups: wheel
+
+    - name: create a file in home directory
+      ansible.builtin.file:
+        path: "/home/{{ user }}/test"
+        state: present
+        
