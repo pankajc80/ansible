@@ -8,5 +8,5 @@
     
     - name: Display result
       debug:
-        msg: "Check for pong"
+        #msg: "Check for pong"
         var: result
