@@ -1,6 +1,7 @@
 ---
 - name: Test connectivity of the servers
-  hosts: all
+  hosts: localhost
+  connection: local
   vars_files:
     - vars/secret.yml
   tasks:
