@@ -1,0 +1,13 @@
+---
+- name: Test connectivity of the servers
+  hosts: all
+  vars_files:
+    - vars/secret.yml
+  tasks:
+    - name: Print secret name 
+      debug:
+        msg: "{{ controller_username }}"
+    
+    - name: Print secret password
+      debug:
+        msg: "{{ controller_password }}"
