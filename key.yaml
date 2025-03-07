@@ -1,0 +1,10 @@
+---
+- name: Distribute SSH Public Key from Execution Node to Managed Nodes
+  hosts: all
+  become: yes  # Run as root if adding key for another user
+  tasks:
+    - name: Ensure SSH key is copied to managed nodes
+      authorized_key:
+        user: pankaj  # Replace with the managed node username
+        state: present
+        key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
