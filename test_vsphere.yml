@@ -14,15 +14,23 @@
       debug:
         msg: "{{ datacenters.value | map(attribute='name') | list }}"
 
-    - name: Build a list of all the clusters
+    - name: List of all the clusters
       vmware.vmware_rest.vcenter_cluster_info:
-      register: all_the_clusters
+      register: cluster_info
+
+    - name: Print cluster info
+      debug:
+        var: cluster_info
+
+    - name: Get network information
+      vmware.vmware_rest.appliance_networking_info:
+      register: network_info
+
+    - name: Print cluster info
+      debug:
+        var: network_info
 
     - name: Retrieve details about the first cluster
       vmware.vmware_rest.vcenter_cluster_info:
         cluster: '{{ all_the_clusters.value[0].cluster }}'
       register: my_cluster_info
-
-    - name: Print cluster name
-      debug:
-        var: my_cluster_info

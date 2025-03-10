@@ -31,7 +31,7 @@
         power_state: "powered_on"
       delegate_to: localhost
 
-    - name: Set VM FQDN and Domain (if required by Guest OS)
+    - name: Set VM FQDN and Domain
       vmware.vmware_rest.vcenter_vm_guest_identity:
         vm: "{{ vm_name }}"
         host_name: "{{ hostname }}"
