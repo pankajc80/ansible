@@ -1,0 +1,23 @@
+---
+- name: Test vSphere Connection using AAP Credentials
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - vmware.vmware_rest
+
+  tasks:
+    - name: Authenticate with vCenter using AAP credentials
+      vmware.vmware_rest.rest_client:
+        hostname: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        validate_certs: "{{ validate_certs | default(false) }}"
+      register: vcenter_auth
+
+    - name: List Datacenters
+      vmware.vmware_rest.vcenter_datacenter_info:
+      register: datacenters
+
+    - name: Print Datacenter Names
+      debug:
+        msg: "{{ datacenters.value | map(attribute='name') | list }}"
