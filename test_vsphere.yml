@@ -2,8 +2,8 @@
 - name: Test vSphere Connection using AAP Credentials
   hosts: localhost
   gather_facts: no
-  collections:
-    - vmware.vmware_rest
+    #collections:
+    #- vmware.vmware_rest
 
   tasks:
     - name: List Datacenters
