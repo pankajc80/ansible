@@ -18,7 +18,8 @@
         memory:
           hot_add_enabled: true
           size_MiB: "{{ memory_size }}"
-        cpu: "{{ cpu_count }}"
+        cpu: 
+          count: "{{ cpu_count }}"
         disks:
           - type: "thin"
             datastore: "{{ datastore }}"
