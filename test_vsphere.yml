@@ -23,6 +23,6 @@
         cluster: '{{ all_the_clusters.value[0].cluster }}'
       register: my_cluster_info
 
-    - name: Print cluster name:
+    - name: Print cluster name
       debug:
         msg: my_cluster_info
