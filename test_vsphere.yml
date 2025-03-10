@@ -26,3 +26,7 @@
       vmware.vmware_rest.vcenter_cluster_info:
         cluster: '{{ cluster_info.value[0].cluster }}'
       register: my_cluster_info
+
+    - name: Gather guest vm info
+      vmware.vmware.guest_info:
+        guest_name: "pc-rhel8-sat"

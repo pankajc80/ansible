@@ -1,3 +1,5 @@
 ---
 collections:
   - vmware.vmware_rest
+  - name: vmware.vmware
+    version: 1.10.1
