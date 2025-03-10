@@ -1,0 +1,40 @@
+---
+- name: Provision VM from Template with FQDN
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Deploy VM from Template
+      vmware.vmware_rest.vcenter_vm:
+        name: "{{ vm_name }}"
+        guest_os: "{{ guest_os }}"
+        placement:
+          cluster: "{{ cluster }}"
+            #  datacenter: "{{ datacenter }}"
+          folder: "{{ vm_folder }}"
+          resource_pool: "{{ resource_pool }}"
+            # zone: "{{ zone | default(omit) }}"
+          datastore: "{{ datastore }}"
+        hardware:
+          memory: "{{ memory_size }}"
+          cpu_count: "{{ cpu_count }}"
+          disks:
+            - type: "thin"
+              datastore: "{{ datastore }}"
+              value: "{{ disk_size }}"
+          nics:
+            - network: "{{ network_name }}"
+              start_connected: true
+        source:
+          type: "template"
+          name: "{{ template_name }}"
+        power_state: "powered_on"
+      delegate_to: localhost
+
+    - name: Set VM FQDN and Domain (if required by Guest OS)
+      vmware.vmware_rest.vcenter_vm_guest_identity:
+        vm: "{{ vm_name }}"
+        host_name: "{{ hostname }}"
+        domain_name: "{{ domain }}"
+      delegate_to: localhost
+
