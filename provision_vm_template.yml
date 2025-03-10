@@ -31,10 +31,10 @@
         power_state: "powered_on"
       delegate_to: localhost
 
-    - name: Set VM FQDN and Domain
-      vmware.vmware_rest.vcenter_vm_guest_identity:
-        vm: "{{ vm_name }}"
-        host_name: "{{ hostname }}"
-        domain_name: "{{ domain }}"
-      delegate_to: localhost
+    #- name: Set VM FQDN and Domain
+     # vmware.vmware_rest.vcenter_vm_guest_identity:
+      #  vm: "{{ vm_name }}"
+       # host_name: "{{ hostname }}"
+        #domain_name: "{{ domain }}"
+      #delegate_to: localhost
 
