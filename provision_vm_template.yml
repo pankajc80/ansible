@@ -7,7 +7,7 @@
     - name: Deploy VM from Template
       vmware.vmware_rest.vcenter_vm:
         name: "{{ vm_name }}"
-        guest_os: "{{ guest_os }}"
+        guest_OS: "{{ guest_os }}"
         placement:
           cluster: "{{ cluster }}"
             #  datacenter: "{{ datacenter }}"
@@ -15,20 +15,21 @@
           resource_pool: "{{ resource_pool }}"
             # zone: "{{ zone | default(omit) }}"
           datastore: "{{ datastore }}"
-        hardware:
-          memory: "{{ memory_size }}"
-          cpu_count: "{{ cpu_count }}"
-          disks:
-            - type: "thin"
-              datastore: "{{ datastore }}"
-              value: "{{ disk_size }}"
-          nics:
-            - network: "{{ network_name }}"
-              start_connected: true
+        memory:
+          hot_add_enabled: true
+          size_MiB: "{{ memory_size }}"
+        cpu: "{{ cpu_count }}"
+        disks:
+          - type: "thin"
+            datastore: "{{ datastore }}"
+            value: "{{ disk_size }}"
+        nics:
+          - network: "{{ network_name }}"
+            start_connected: true
         source:
           type: "template"
           name: "{{ template_name }}"
-        power_state: "powered_on"
+        power_on: true
       delegate_to: localhost
 
     #- name: Set VM FQDN and Domain
