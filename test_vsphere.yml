@@ -25,4 +25,4 @@
 
     - name: Print cluster name
       debug:
-        msg: my_cluster_info
+        var: my_cluster_info
