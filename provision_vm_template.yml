@@ -1,19 +1,17 @@
 ---
-- name: Provision VM from Template with FQDN
+- name: Provision VM from Template
   hosts: localhost
   gather_facts: no
 
   tasks:
-    - name: Deploy VM from Template
+    - name: Deploy a VM 
       vmware.vmware_rest.vcenter_vm:
         name: "{{ vm_name }}"
         guest_OS: "{{ guest_os }}"
         placement:
           cluster: "{{ cluster }}"
-            #  datacenter: "{{ datacenter }}"
           folder: "{{ vm_folder }}"
           resource_pool: "{{ resource_pool }}"
-            # zone: "{{ zone | default(omit) }}"
           datastore: "{{ datastore }}"
         memory:
           hot_add_enabled: true
@@ -27,16 +25,14 @@
         nics:
           - network: "{{ network_name }}"
             start_connected: true
-        source:
-          type: "template"
-          name: "{{ template_name }}"
         power_on: true
-      delegate_to: localhost
+      
 
-    #- name: Set VM FQDN and Domain
-     # vmware.vmware_rest.vcenter_vm_guest_identity:
-      #  vm: "{{ vm_name }}"
-       # host_name: "{{ hostname }}"
-        #domain_name: "{{ domain }}"
-      #delegate_to: localhost
+    - name: List Local Content Library
+      vmware.vmware_rest.content_locallibrary_info:
+      register: content_library
+
+    - name: Print Library info
+      debug:
+        var: content_library
 

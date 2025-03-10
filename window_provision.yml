@@ -1,0 +1,64 @@
+---
+- name: Provision Windows Server VM from Template
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - vmware.vmware_rest
+
+  tasks:
+    - name: Deploy Windows VM from Template
+      vmware.vmware_rest.vcenter_vm:
+        name: "{{ vm_name }}"
+        guest_OS: ""
+        placement:
+          cluster: "{{ cluster }}"
+          datacenter: "{{ datacenter }}"
+          folder: "{{ vm_folder }}"
+          resource_pool: "{{ resource_pool }}"
+          datastore: "{{ datastore }}"
+        memory:
+          hot_add_enabled: true
+          size_MiB: "{{ memory_size }}"
+        cpu: 
+          count: "{{ cpu_count }}"
+        disks:
+          - type: "thin"
+            datastore: "{{ datastore }}"
+            value: "{{ disk_size }}"
+        nics:
+          - network: "{{ network_name }}"
+            start_connected: true
+        power_on: true
+      delegate_to: localhost
+
+    - name: Wait for VM to be registered in vSphere
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Customize Windows VM with Sysprep
+      vmware.vmware_rest.vcenter_vm_guest_customization:
+        vm: "{{ vm_name }}"
+        spec:
+          identity:
+            type: "Sysprep"
+            user_data:
+              full_name: "Administrator"
+              org_name: "My Organization"
+              computer_name: "{{ hostname }}"
+              product_id: "{{ windows_product_key | default(omit) }}"  # Optional
+            gui_unattended:
+              password:
+                value: "{{ admin_password }}"
+                encrypted: false
+              auto_logon: true
+              auto_logon_count: 1
+          global_ip_settings:
+            dns_suffix_list: ["{{ domain }}"]
+          nic_settings:
+            - adapter:
+                dns_domain: "{{ domain }}"
+                dns_servers: "{{ dns_servers }}"
+                ip: "{{ ip_address | default(omit) }}"
+                subnet_mask: "{{ subnet_mask | default(omit) }}"
+                gateway: "{{ gateway | default(omit) }}"
+      delegate_to: localhost
