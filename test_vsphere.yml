@@ -30,22 +30,32 @@
     - name: Gather guest vm info
       vmware.vmware.guest_info:
         guest_name: "pc-rhel8-sat"
+
+    - name: Get the dvswitch called my-portgroup
+      vmware.vmware_rest.vcenter_network_info:
+        filter_types: DISTRIBUTED_PORTGROUP
+        #filter_names: my portrgoup
+      register: my_portgroup
+
+    - name: Print cluster info
+      debug:
+        var: my_portgroup
         
-    - name: Deploy Windows Server 2022 VM from a Template
-      vmware.vmware.deploy_folder_template:
-        #hostname: "10.100.151.9"
-        #username: "pankaj@ukteam.lab"
-        #password: "P@nkaj123"
-        #validate_certs: false
-        datacenter: "UKDatacenter"
-        cluster: "UKCluster"   # Cluster where vm should be deployed
-          #resource_pool: "{{ resource_pool | default(omit) }}"
-        vm_folder: "Pankaj"  # The folder into which vm should be deployed
-        template_name: "pc-ubuntu"
-          #template_folder: "{{ template_folder }}"
-        vm_name: "pc-ubuntu-test"
-        datastore: "datastore2"
-      #register: vm_info
-      delegate_to: localhost
+    # - name: Deploy Windows Server 2022 VM from a Template
+    #   vmware.vmware.deploy_folder_template:
+    #     #hostname: "10.100.151.9"
+    #     #username: "pankaj@ukteam.lab"
+    #     #password: "P@nkaj123"
+    #     #validate_certs: false
+    #     datacenter: "UKDatacenter"
+    #     cluster: "UKCluster"   # Cluster where vm should be deployed
+    #       #resource_pool: "{{ resource_pool | default(omit) }}"
+    #     vm_folder: "Pankaj"  # The folder into which vm should be deployed
+    #     template_name: "pc-ubuntu"
+    #       #template_folder: "{{ template_folder }}"
+    #     vm_name: "pc-ubuntu-test"
+    #     datastore: "datastore2"
+    #   #register: vm_info
+    #   delegate_to: localhost
 
     
