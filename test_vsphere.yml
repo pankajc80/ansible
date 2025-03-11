@@ -40,6 +40,18 @@
     - name: Print cluster info
       debug:
         var: my_portgroup
+
+    - name: Get VM ID
+      vmware.vmware_rest.vcenter_vm_info:
+        #names: 
+          # - "{{ vm_name }}"
+        vm: vm-2009
+      register: vm_info
+
+    - name: Print ID
+      debug:
+        var: vm_info
+
         
     # - name: Deploy Windows Server 2022 VM from a Template
     #   vmware.vmware.deploy_folder_template:
