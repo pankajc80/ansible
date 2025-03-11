@@ -4,7 +4,8 @@
   gather_facts: no
     #collections:
     #- vmware.vmware_rest
-
+  vars_files:
+    - secret.yml
   tasks:
     - name: List Datacenters
       vmware.vmware_rest.vcenter_datacenter_info:
@@ -51,6 +52,10 @@
     - name: Print ID
       debug:
         var: vm_info.value.identity.instance_uuid
+
+    - name: Print secret
+      debug:
+        msg: Password is "{{ password }}"
 
         
     # - name: Deploy Windows Server 2022 VM from a Template
