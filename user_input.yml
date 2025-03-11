@@ -1,0 +1,18 @@
+---
+- name: Capture User Inputs for VM Provisioning
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Display the provided VM details
+      debug:
+        msg: 
+          - "Datacenter: {{ datacenter }}"
+          - "Cluster: {{ cluster }}"
+          - "VM Name: {{ vm_name }}"
+          - "Template: {{ template_name }}"
+          - "Folder: {{ vm_folder }}"
+          - "Datastore: {{ datastore }}"
+          - "Network: {{ network_name }}"
+          - "CPU Count: {{ cpu_count }}"
+          - "Memory Size (MB): {{ memory_size }}"
+
