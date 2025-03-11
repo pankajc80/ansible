@@ -3,16 +3,16 @@
   hosts: localhost
   gather_facts: no
   vars:
-    datacenter: "{{ datacenter | default('') }}"
-    cluster: "{{ cluster | default('') }}"
-    vm_name: "{{ vm_name | default('') }}"
-    template_name: "{{ template_name | default('') }}"
-    vm_folder: "{{ vm_folder | default('') }}"
-    datastore: "{{ datastore | default('') }}"
-    network_name: "{{ network_name | default('') }}"
-    cpu_count: "{{ cpu_count | default(2) }}"
-    memory_size: "{{ memory_size | default(4096) }}"
-    
+    datacenter: ""
+    cluster: ""
+    vm_name: ""
+    template_name: ""
+    vm_folder: ""
+    datastore: ""
+    network_name: ""
+    cpu_count: ""
+    memory_size: ""
+
   tasks:
     - name: Display the provided VM details
       debug:
