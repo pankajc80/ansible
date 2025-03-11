@@ -43,7 +43,7 @@
         vm_folder: "Pankaj"  # The folder into which vm should be deployed
         template_name: "pc-ubuntu"
           #template_folder: "{{ template_folder }}"
-        vm_name: "{{ vm_name }}"
+        vm_name: "pc-ubuntu-test"
         datastore: "datastore2"
       #register: vm_info
       delegate_to: localhost
