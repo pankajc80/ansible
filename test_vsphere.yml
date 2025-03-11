@@ -50,7 +50,7 @@
 
     - name: Print ID
       debug:
-        var: vm_info
+        var: vm_info.value.identity.instance_uuid
 
         
     # - name: Deploy Windows Server 2022 VM from a Template
