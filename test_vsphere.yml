@@ -55,7 +55,7 @@
 
     - name: Print secret
       debug:
-        msg: "Password is {{ password }}"
+        msg: Password is "{{ password }}"
 
         
     # - name: Deploy Windows Server 2022 VM from a Template
