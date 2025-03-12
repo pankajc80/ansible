@@ -5,7 +5,7 @@
     #collections:
     #- vmware.vmware_rest
   vars_files:
-    - secret.yml
+    - secret.yaml
   tasks:
     - name: List Datacenters
       vmware.vmware_rest.vcenter_datacenter_info:
