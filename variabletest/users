@@ -1,6 +1,7 @@
 ---
 - name: Create users on the servers
   hosts: localhost
+  connection: local
   vars:
     user: infra
   tasks:
