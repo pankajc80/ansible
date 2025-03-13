@@ -5,9 +5,9 @@
   vars:
     user: infra
   tasks:
-    - name: Add user {{ user }} 
+    - name: Add user "{{ user }}" 
       user:
-        name: {{ user }}
+        name: "{{ user }}"
         state: present
         groups: wheel
 
