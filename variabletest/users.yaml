@@ -2,8 +2,8 @@
 - name: Create users on the servers
   hosts: localhost
   connection: local
-  vars:
-    user: infra
+    # vars:
+    # user: infra
   tasks:
     - name: Add user "{{ user }}" 
       user:
