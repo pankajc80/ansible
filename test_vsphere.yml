@@ -30,7 +30,7 @@
 
     - name: Gather guest vm info
       vmware.vmware.guest_info:
-        guest_name: "pc-rhel8-sat"
+        guest_name: "pc-rhel9-aap2.5-hub"
 
     - name: Get the dvswitch called my-portgroup
       vmware.vmware_rest.vcenter_network_info:
@@ -38,10 +38,27 @@
         #filter_names: my portrgoup
       register: my_portgroup
 
-    - name: Print cluster info
+    - name: Print dvswitch portgroup info
       debug:
         var: my_portgroup
 
+    - name: Look up the VM in the inventory
+      vmware.vmware_rest.vcenter_vm_info:
+        filter_names:
+          - pc-rhel9-aap2.5-hub
+      register: search_result
+
+    - name: Collect information about a specific VM
+      vmware.vmware_rest.vcenter_vm_info:
+        vm: '{{ search_result.value[0].vm }}'
+      register: test_vm1_info
+    
+    - name: Get guest networking information
+      vmware.vmware_rest.vcenter_vm_guest_networking_info:
+        vm: '{{ test_vm1_info.id }}'
+      register: _result
+    
+    
     - name: Get VM ID
       vmware.vmware_rest.vcenter_vm_info:
         #names: 
@@ -52,10 +69,6 @@
     - name: Print ID
       debug:
         var: vm_info.value.identity.instance_uuid
-
-    - name: Print secret
-      debug:
-        msg: Password is "{{ password }}"
 
         
     # - name: Deploy Windows Server 2022 VM from a Template
