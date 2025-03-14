@@ -2,28 +2,33 @@
 - name: Capture User Inputs for VM Provisioning
   hosts: localhost
   gather_facts: no
-  vars:
-    datacenter: ""
-    cluster: ""
-    vm_name: ""
-    template_name: ""
-    vm_folder: ""
-    datastore: ""
-    network_name: ""
-    cpu_count: ""
-    memory_size: ""
+    #  vars:
+    # datacenter: ""
+    # cluster: ""
+    #vm_name: ""
+    #template_name: ""
+    #vm_folder: ""
+    #datastore: ""
+    #network_name: ""
+    #cpu_count: ""
+    #memory_size: ""
 
   tasks:
     - name: Display the provided VM details
       debug:
         msg: 
-          - Datacenter: "{{ datacenter }}"
-          - Cluster: "{{ cluster }}"
-          - VM Name: "{{ vm_name }}"
+          - datacenter: "{{ datacenter }}"
+          - cluster: "{{ cluster }}"
+          - VM_Name: "{{ vm_name }}"
           - Template: "{{ template_name }}"
           - Folder: "{{ vm_folder }}"
           - Datastore: "{{ datastore }}"
           - Network: "{{ network_name }}"
-          - CPU Count: "{{ cpu_count }}"
-          - Memory Size (MB): "{{ memory_size }}"
+          - CPU_Count: "{{ cpu_count }}"
+          - Memory_Size (MB): "{{ memory_size }}"
+
+    - name: Set workflow variable
+      ansible.builtin.set_stats:
+        data:
+          datacenter: "{{ datacenter }}"
 
