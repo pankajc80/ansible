@@ -54,7 +54,7 @@
       register: test_vm1_info
     
     - name: Get guest networking information
-      vmware.vmware_rest.vcenter_vm_guest_networking_info:
+      vmware.vmware_rest.vcenter_vm_guest_networking_interfaces_info:
         vm: '{{ test_vm1_info.id }}'
       register: _result
     
