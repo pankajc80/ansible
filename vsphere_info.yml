@@ -49,7 +49,7 @@
     - name: Look up the VM in the inventory
       vmware.vmware_rest.vcenter_vm_info:
         filter_names: 
-        - "pc-rhel8-sat"
+        - "pc-rhel9-aap2.5-controller"
       register: vm_info
 
     - name: Collect information about a VM 
@@ -60,7 +60,7 @@
 
     - name: Print ID
       debug:
-        var: vm_info.value.identity.instance_uuid
+        var: vm_details.value.identity.instance_uuid
 
     - name: Get guest networking info
       vmware.vmware_rest.vcenter_vm_guest_networking_info:
