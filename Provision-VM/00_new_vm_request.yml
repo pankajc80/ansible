@@ -23,12 +23,11 @@
           - Template: "{{ template_name }}"
           - Folder: "{{ vm_folder }}"
           - Datastore: "{{ datastore }}"
-          - Network: "{{ network_name }}"
-          - CPU_Count: "{{ cpu_count }}"
-          - Memory_Size (MB): "{{ memory_size }}"
+          # - Network: "{{ network_name }}"
+          # - CPU_Count: "{{ cpu_count }}"
+          # - Memory_Size (MB): "{{ memory_size }}"
 
-    - name: Set workflow variable
-      ansible.builtin.set_stats:
-        data:
-          datacenter: "{{ datacenter }}"
-
+    # - name: Set workflow variable
+    #   ansible.builtin.set_stats:
+    #     data:
+    #       datacenter: "{{ datacenter }}"
