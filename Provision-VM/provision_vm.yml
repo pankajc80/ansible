@@ -4,35 +4,45 @@
   gather_facts: no
 
   tasks:
-    - name: Deploy a VM 
-      vmware.vmware_rest.vcenter_vm:
-        name: "{{ vm_name }}"
-        guest_OS: "{{ guest_os }}"
-        placement:
-          cluster: "{{ cluster }}"
-          folder: "{{ vm_folder }}"
-          resource_pool: "{{ resource_pool }}"
-          datastore: "{{ datastore }}"
-        memory:
-          hot_add_enabled: true
-          size_MiB: "{{ memory_size }}"
-        cpu: 
-          count: "{{ cpu_count }}"
-        disks:
-          - type: "thin"
-            datastore: "{{ datastore }}"
-            value: "{{ disk_size }}"
-        nics:
-          - network: "{{ network_name }}"
-            start_connected: true
-        power_on: true
+    - name: Deploy Ubuntu VM from a Template
+      vmware.vmware.deploy_folder_template:
+        #hostname: "10.100.151.9"
+        #username: "pankaj@ukteam.lab"
+        #password: "P@nkaj123"
+        #validate_certs: false
+        datacenter: "UKDatacenter"
+        cluster: "UKCluster"   # Cluster where vm should be deployed
+          #resource_pool: "{{ resource_pool | default(omit) }}"
+        vm_folder: "Pankaj"  # The folder into which vm should be deployed
+        template_name: "pc-ubuntu"
+          #template_folder: "{{ template_folder }}"
+        vm_name: "pc-ubuntu-test"
+        datastore: "datastore2"
+      register: vm_info
+      delegate_to: localhost
+
+    # - name: Deploy a VM 
+    #   vmware.vmware_rest.vcenter_vm:
+    #     name: "{{ vm_name }}"
+    #     guest_OS: "{{ guest_os }}"
+    #     placement:
+    #       cluster: "{{ cluster }}"
+    #       folder: "{{ vm_folder }}"
+    #       resource_pool: "{{ resource_pool }}"
+    #       datastore: "{{ datastore }}"
+    #     memory:
+    #       hot_add_enabled: true
+    #       size_MiB: "{{ memory_size }}"
+    #     cpu: 
+    #       count: "{{ cpu_count }}"
+    #     disks:
+    #       - type: "thin"
+    #         datastore: "{{ datastore }}"
+    #         value: "{{ disk_size }}"
+    #     nics:
+    #       - network: "{{ network_name }}"
+    #         start_connected: true
+    #     power_on: true
       
 
-    - name: List Local Content Library
-      vmware.vmware_rest.content_locallibrary_info:
-      register: content_library
-
-    - name: Print Library info
-      debug:
-        var: content_library
 

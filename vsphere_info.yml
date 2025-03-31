@@ -46,12 +46,14 @@
       debug:
         var: my_portgroup
 
+    # Below task is to collect basic details of vm like id, memory, cpu, power state
     - name: Look up the VM in the inventory
       vmware.vmware_rest.vcenter_vm_info:
         filter_names: 
         - "pc-rhel9-aap2.5-controller"
       register: vm_info
 
+    # Below task will collect all info about guest vm based on vm-id i.e. memory, disks, cpu, scsi,sata etc.
     - name: Collect information about a VM 
       vmware.vmware_rest.vcenter_vm_info:
         vm: "{{ vm_info.value[0].vm }}"
@@ -60,13 +62,15 @@
 
     - name: Print ID
       debug:
-        var: vm_details.identity.instance_uuid
+        var: vm_details.value.identity.instance_uuid
 
+    # Below task will collect DNS, Domain and HostName
     - name: Get guest networking info
       vmware.vmware_rest.vcenter_vm_guest_networking_info:
         vm: "{{ vm_details.id }}"
       register: guest_network_info
 
+    # Below task will collect IP Address of each interface on the guest
     - name: Get guest network interface info
       vmware.vmware_rest.vcenter_vm_guest_networking_interfaces_info:
         vm: "{{ vm_details.id }}"
