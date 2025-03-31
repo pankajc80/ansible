@@ -63,12 +63,12 @@
         var: vm_info.value.identity.instance_uuid
 
     - name: Get guest networking info
-      vmware.vmware_rest.vcenter_vm_guest_network_info:
+      vmware.vmware_rest.vcenter_vm_guest_networking_info:
         vm: "{{ vm_details.id }}"
       register: guest_network_info
 
     - name: Get guest network interface info
-      vmware.vmware_rest.vcenter_vm_guest_network_interface_info:
+      vmware.vmware_rest.vcenter_vm_guest_networking_interfaces_info:
         vm: "{{ vm_details.id }}"
       register: guest_network_interface_info
 
