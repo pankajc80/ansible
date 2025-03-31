@@ -10,14 +10,14 @@
         #username: "pankaj@ukteam.lab"
         #password: "P@nkaj123"
         #validate_certs: false
-        datacenter: "UKDatacenter"
-        cluster: "UKCluster"   # Cluster where vm should be deployed
+        datacenter: "{{ datacenter }}"
+        cluster: "{{ cluster }}"   # Cluster where vm should be deployed
           #resource_pool: "{{ resource_pool | default(omit) }}"
-        vm_folder: "Pankaj"  # The folder into which vm should be deployed
-        template_name: "pc-ubuntu"
+        vm_folder: "{{ vm_folder }}"  # The folder into which vm should be deployed
+        template_name: "{{ template_name }}"
           #template_folder: "{{ template_folder }}"
-        vm_name: "pc-ubuntu-test"
-        datastore: "datastore2"
+        vm_name: "{{ vm_name }}"
+        datastore: "{{ datastore }}"
       register: vm_info
       delegate_to: localhost
 
