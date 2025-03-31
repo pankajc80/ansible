@@ -48,8 +48,8 @@
 
     - name: Look up the VM in the inventory
       vmware.vmware_rest.vcenter_vm_info:
-        names: 
-          - pc-rhel9-app2.5-controller
+        filter_names: 
+        - pc-rhel9-app2.5-controller
       register: vm_info
 
     - name: Collect information about a VM 
