@@ -4,8 +4,13 @@
   gather_facts: no
     #collections:
     #- vmware.vmware_rest
+<<<<<<< HEAD:test_vsphere.yml
   vars_files:
     - secret.yaml
+=======
+  #vars_files:
+    #- secret.yml
+>>>>>>> cf448c8 (Updated vmware related playbooks for collecting info and a new folder for vm provisioning):vsphere_info.yml
   tasks:
     - name: List Datacenters
       vmware.vmware_rest.vcenter_datacenter_info:
@@ -14,6 +19,14 @@
     - name: Print Datacenter Names
       debug:
         msg: "{{ datacenters.value | map(attribute='name') | list }}"
+
+    - name: Print Datacenter details
+      debug:
+        var: datacenters
+
+    - name: List of all the datastores
+      vmware.vmware_rest.vcenter_datastore_info:
+      register: datastore_info
 
     - name: List of all the clusters
       vmware.vmware_rest.vcenter_cluster_info:
@@ -28,21 +41,30 @@
         cluster: '{{ cluster_info.value[0].cluster }}'
       register: my_cluster_info
 
+<<<<<<< HEAD:test_vsphere.yml
     - name: Gather guest vm info
       vmware.vmware.guest_info:
         guest_name: "pc-rhel9-aap2.5-hub"
 
     - name: Get the dvswitch called my-portgroup
+=======
+    - name: Get the dvswitch details
+>>>>>>> cf448c8 (Updated vmware related playbooks for collecting info and a new folder for vm provisioning):vsphere_info.yml
       vmware.vmware_rest.vcenter_network_info:
         filter_types: DISTRIBUTED_PORTGROUP
         #filter_names: my portrgoup
       register: my_portgroup
 
+<<<<<<< HEAD:test_vsphere.yml
     - name: Print dvswitch portgroup info
+=======
+    - name: Print network info
+>>>>>>> cf448c8 (Updated vmware related playbooks for collecting info and a new folder for vm provisioning):vsphere_info.yml
       debug:
         var: my_portgroup
 
     - name: Look up the VM in the inventory
+<<<<<<< HEAD:test_vsphere.yml
       vmware.vmware_rest.vcenter_vm_info:
         filter_names:
           - pc-rhel9-aap2.5-hub
@@ -60,16 +82,36 @@
     
     
     - name: Get VM ID
+=======
+>>>>>>> cf448c8 (Updated vmware related playbooks for collecting info and a new folder for vm provisioning):vsphere_info.yml
       vmware.vmware_rest.vcenter_vm_info:
-        #names: 
-          # - "{{ vm_name }}"
-        vm: vm-2009
+        names: 
+          - pc-rhel9-app2.5-controller
       register: vm_info
+
+    - name: Collect information about a VM 
+      vmware.vmware_rest.vcenter_vm_info:
+        vm: "{{ vm_info.value[0].vm }}"
+      register: vm_details
+  
 
     - name: Print ID
       debug:
         var: vm_info.value.identity.instance_uuid
 
+<<<<<<< HEAD:test_vsphere.yml
+=======
+    - name: Get guest networking info
+      vmware.vmware_rest.vcenter_vm_guest_network_info:
+        vm: "{{ vm_details.id }}"
+      register: guest_network_info
+
+    - name: Get guest network interface info
+      vmware.vmware_rest.vcenter_vm_guest_network_interface_info:
+        vm: "{{ vm_details.id }}"
+      register: guest_network_interface_info
+
+>>>>>>> cf448c8 (Updated vmware related playbooks for collecting info and a new folder for vm provisioning):vsphere_info.yml
         
     # - name: Deploy Windows Server 2022 VM from a Template
     #   vmware.vmware.deploy_folder_template:
