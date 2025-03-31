@@ -60,7 +60,7 @@
 
     - name: Print ID
       debug:
-        var: vm_details.value.identity.instance_uuid
+        var: vm_details.identity.instance_uuid
 
     - name: Get guest networking info
       vmware.vmware_rest.vcenter_vm_guest_networking_info:
