@@ -11,18 +11,18 @@
         group: root
         mode: '0644'
 
-    - name: Extract Lynis tarball
-      ansible.builtin.unarchive:
-        src: /usr/local/lynis-3.1.6.tar.gz
-        dest: /usr/local/
-        remote_src: yes
+    # - name: Extract Lynis tarball
+    #   ansible.builtin.unarchive:
+    #     src: /usr/local/lynis-3.1.6.tar.gz
+    #     dest: /usr/local/
+    #     remote_src: yes
 
-    - name: Run Lynis audit
-      shell: ./lynis audit system --quiet
-      args:
-        chdir: /usr/local/lynis
-      register: lynis_output
+    # - name: Run Lynis audit
+    #   shell: ./lynis audit system --quiet
+    #   args:
+    #     chdir: /usr/local/lynis
+    #   register: lynis_output
 
-    - name: Display Lynis audit results
-      debug:
-        var: lynis_output.stdout
+    # - name: Display Lynis audit results
+    #   debug:
+    #     var: lynis_output.stdout
