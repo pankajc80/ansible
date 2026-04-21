@@ -3,25 +3,11 @@
   hosts: all
   become: yes
 
-  pre_tasks:
-    - name: Gather the package facts
-      ansible.builtin.package_facts:
-        manager: auto
-
   tasks:
-    - name: Assert that tar package is installed
-      ansible.builtin.assert:
-        that:
-          - "'tar' in ansible_facts.packages"
-        #fail_msg: "The 'tar' package is required to extract Lynis but is not installed."
-        success_msg: "Required package for extracting Lynis is installed."
-      register: tar_unzip_check
-
     - name: Install tar package if not present
       ansible.builtin.package:
         name: tar
         state: present
-      when: tar_unzip_check is failed
     
     - name: Copy Lynis tarball to the remote host
       ansible.builtin.copy:
@@ -31,7 +17,6 @@
         group: root
         mode: '0644'
 
-    
     - name: Extract Lynis tarball
       ansible.builtin.unarchive:
         src: /usr/local/lynis-3.1.6.tar.gz
@@ -42,8 +27,13 @@
       shell: ./lynis audit system --quiet
       args:
         chdir: /usr/local/lynis
-      register: lynis_output
 
-    - name: Display Lynis audit results
-      debug:
-        var: lynis_output.stdout
+    - name: Fetch the lynis log and report
+      ansible.builtin.fetch:
+        src: "/var/log/{{ item }}"
+        dest: "/home/pankaj/{{ inventory_hostname }}-{{ item }}"
+        flat: true
+      loop:
+        - lynis-report.dat
+        - lynis.log
+
