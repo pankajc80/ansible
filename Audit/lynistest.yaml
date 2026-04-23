@@ -9,17 +9,18 @@
 
   tasks:
     
-    - name: Check if tar is installed
-      ansible.builtin.command: which tar
-      register: tar_check
-      ignore_errors: yes
-      changed_when: false
+    # - name: Check if tar is installed
+    #   ansible.builtin.command: which tar
+    #   register: tar_check
+    #   ignore_errors: yes
+    #   changed_when: false
 
     - name: Install tar package if not present
       ansible.builtin.package:
         name: tar
         state: present
-      when: tar_check.rc != 0
+      when: "'tar' not in ansible_facts.packages"
+      register: tar_install
     
     - name: Copy Lynis tarball to the remote host
       ansible.builtin.copy:
@@ -64,7 +65,8 @@
       ansible.builtin.package:
         name: tar
         state: absent
-      when: tar_check.rc != 0
+      when: 
+        - tar_install.changed
 
         
 
