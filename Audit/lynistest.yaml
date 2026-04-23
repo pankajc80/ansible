@@ -13,6 +13,7 @@
       ansible.builtin.command: which tar
       register: tar_check
       ignore_errors: yes
+      change_when: false
 
     - name: Install tar package if not present
       ansible.builtin.package:
