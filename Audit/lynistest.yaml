@@ -2,12 +2,23 @@
 - name: Perform system audit using Lynis
   hosts: all
   become: yes
+  pre_tasks:
+    - name: Check package manager
+      ansible.builtin.package_facts:
+        manager: auto
 
   tasks:
+    
+    - name: Check if tar is installed
+      ansible.builtin.command: which tar
+      register: tar_check
+      ignore_errors: yes
+
     - name: Install tar package if not present
       ansible.builtin.package:
         name: tar
         state: present
+      when: tar_check.rc != 0
     
     - name: Copy Lynis tarball to the remote host
       ansible.builtin.copy:
@@ -36,4 +47,23 @@
       loop:
         - lynis-report.dat
         - lynis.log
+
+    - name: Clean up Lynis files from the remote host
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      ignore_errors: yes
+      loop:
+        - /usr/local/lynis-3.1.6.tar.gz
+        - /usr/local/lynis
+        - /var/log/lynis-report.dat
+        - /var/log/lynis.log
+
+    - name: Uninstall tar package if it was installed by this playbook
+      ansible.builtin.package:
+        name: tar
+        state: absent
+      when: tar_check.rc != 0
+
+        
 
